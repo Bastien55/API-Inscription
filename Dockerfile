@@ -6,10 +6,12 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["API-Inscription.csproj", "."]
-RUN dotnet restore "./API-Inscription.csproj"
+COPY ["API-Inscription.csproj", "API-Inscription/"]
+WORKDIR "/src/API-Inscription/"
 COPY . .
-WORKDIR "/src/."
+RUN dotnet restore "API-Inscription.csproj"
+
+USER root
 RUN dotnet build "API-Inscription.csproj" -c Release -o /app/build
 
 FROM build AS publish

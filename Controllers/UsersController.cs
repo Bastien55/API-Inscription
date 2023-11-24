@@ -16,9 +16,12 @@ namespace API_Inscription.Controllers
     {
         private readonly InscriptionDbContext _context;
 
+        public ProducerMQ Producer { get; set; }
+
         public UsersController(InscriptionDbContext context)
         {
             _context = context;
+            Producer = new ProducerMQ();
         }
 
         // GET: api/Users
@@ -91,7 +94,9 @@ namespace API_Inscription.Controllers
               return Problem("Entity set 'InscriptionDbContext.Users'  is null.");
           }
             _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
+
+            Producer.OnMessage.Invoke(this, user.ToString());
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }

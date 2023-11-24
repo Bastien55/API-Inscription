@@ -19,7 +19,7 @@ public partial class InscriptionDbContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySql("server=DB;user=root;password=admin;database=InscriptionDB", ServerVersion.Parse("8.1.0-mysql"));
+        => optionsBuilder.UseMySql("server=db;user=root;password=admin;database=InscriptionDB", ServerVersion.Parse("8.1.0-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
